@@ -24,7 +24,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#070B13] text-white pt-16 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <footer className="relative bg-[#070B13] text-white pt-6 sm:pt-8 lg:pt-9 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* 1. Large Clean White Footer Container (Card on Dark Background) */}
       <div className="max-w-7xl mx-auto bg-white text-neutral-900 rounded-2xl border border-neutral-200/90 shadow-2xl p-6 sm:p-10 lg:p-12 relative z-10">
         {/* Main Grid: Brand & About + Quick Links + Contact Info + Follow Us */}

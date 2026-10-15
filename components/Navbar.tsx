@@ -39,9 +39,9 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-center">
-          {/* Centralized Logo & Desktop Nav Links Container */}
-          <div className="flex items-center justify-center gap-6 sm:gap-8 lg:gap-10">
+        <div className="relative flex items-center justify-between md:justify-center">
+          {/* Centralized Container for Desktop & Tablet (Logo + Nav Links + Contact Us CTA) */}
+          <div className="flex items-center gap-4 sm:gap-6 md:gap-5 lg:gap-8 xl:gap-10">
             {/* Brand Logo using MSTRATA FOOTER LOGO.png */}
             <a
               href="#home"
@@ -55,18 +55,18 @@ export function Navbar() {
               <img
                 src="/images/MSTRATA FOOTER LOGO.png"
                 alt="MStrata Construction Company"
-                className="h-8 sm:h-9 md:h-10 w-auto max-w-[200px] sm:max-w-[240px] md:max-w-[270px] object-contain group-hover:scale-[1.02] transition-transform"
+                className="h-8 sm:h-9 md:h-9 lg:h-10 w-auto max-w-[170px] sm:max-w-[210px] md:max-w-[230px] lg:max-w-[260px] object-contain group-hover:scale-[1.02] transition-transform"
                 loading="eager"
                 referrerPolicy="no-referrer"
               />
             </a>
 
-            {/* Subtle Vertical Divider between Centralized Logo and Links on Desktop */}
-            <div className="hidden lg:block w-px h-6 bg-neutral-200" />
+            {/* Subtle Vertical Divider between Centralized Logo and Links on Desktop/Tablet */}
+            <div className="hidden md:block w-px h-6 bg-neutral-200" />
 
-            {/* Centralized Desktop Navigation Links */}
+            {/* Centralized Navigation Links for Tablet & Desktop */}
             <nav
-              className="hidden lg:flex items-center gap-7 xl:gap-8 text-sm font-semibold tracking-wide text-neutral-700"
+              className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-8 text-xs sm:text-sm font-semibold tracking-wide text-neutral-700"
               aria-label="Main Navigation"
             >
               {navLinks.map((link) => (
@@ -83,30 +83,22 @@ export function Navbar() {
                 </a>
               ))}
             </nav>
+
+            {/* Centralized Desktop/Tablet Contact Us CTA Button */}
+            <div className="hidden md:flex items-center ml-1 lg:ml-2">
+              <button
+                type="button"
+                onClick={() => handleNavClick('#contact')}
+                className="inline-flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#FF007B] hover:bg-[#E0006C] active:scale-[0.98] transition-all rounded shadow-md shadow-[#FF007B]/20 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF007B]"
+              >
+                <span>Contact Us</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
-          {/* Desktop Contact Us CTA Button - Positioned on right */}
-          <div className="hidden lg:flex absolute right-0 items-center">
-            <button
-              type="button"
-              onClick={() => handleNavClick('#contact')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#FF007B] hover:bg-[#E0006C] active:scale-[0.98] transition-all rounded shadow-md shadow-[#FF007B]/20 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF007B]"
-            >
-              <span>Contact Us</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Mobile Right Controls: Contact Us CTA & Drawer Toggle */}
-          <div className="absolute right-0 flex items-center gap-2.5 lg:hidden">
-            <button
-              type="button"
-              onClick={() => handleNavClick('#contact')}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white bg-[#FF007B] hover:bg-[#E0006C] active:scale-[0.98] transition-all rounded shadow-sm"
-            >
-              <span>Contact</span>
-            </button>
-
+          {/* Mobile Right Menu Toggle (Only on < md, no duplicate Contact CTA) */}
+          <div className="flex items-center md:hidden">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -120,9 +112,9 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Only on < md) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/98 border-b border-neutral-200 px-5 pt-4 pb-6 mt-3 space-y-4 shadow-xl backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="md:hidden bg-white/98 border-b border-neutral-200 px-5 pt-4 pb-6 mt-3 space-y-4 shadow-xl backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col items-center space-y-3" aria-label="Mobile Navigation">
             {navLinks.map((link) => (
               <a
@@ -140,7 +132,7 @@ export function Navbar() {
           </nav>
 
           <div className="pt-2 flex flex-col gap-2.5">
-            {/* Prominent Mobile Contact CTA Button */}
+            {/* Single Prominent Mobile Contact CTA Button */}
             <button
               type="button"
               onClick={() => handleNavClick('#contact')}

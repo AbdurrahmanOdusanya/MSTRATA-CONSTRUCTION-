@@ -3,17 +3,24 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, X, MapPin, Check, Layers, ExternalLink } from 'lucide-react';
 
+interface ProjectGalleryImage {
+  src: string;
+  caption: string;
+  stage?: string;
+}
+
 interface ProjectItem {
   id: string;
   title: string;
   category: 'Residential' | 'Commercial';
   image: string;
+  galleryImages?: ProjectGalleryImage[];
   description: string;
   details: {
     location: string;
     scope: string;
-    typology: string;
     focus: string;
+    typology?: string;
   };
 }
 
@@ -22,10 +29,57 @@ interface ProjectsSectionProps {
 }
 
 export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProps) {
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Residential' | 'Commercial'>('All');
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const projects: ProjectItem[] = [
+    {
+      id: 'proj-byd',
+      title: 'BYD Commercial Automotive Showroom',
+      category: 'Commercial',
+      image: '/images/BYD/BYD Finished Showroom Handover.jpg',
+      galleryImages: [
+        {
+          src: '/images/BYD/BYD Piling Works AND Foundation Drilling.jpg',
+          caption: 'Piling Works & Foundation Drilling',
+          stage: 'Phase 01',
+        },
+        {
+          src: '/images/BYD/BYD Ground Beam Formwork & Reinforcement.jpg',
+          caption: 'Ground Beam Formwork & Reinforcement',
+          stage: 'Phase 02',
+        },
+        {
+          src: '/images/BYD/BYD Ground Floor Oversite Concrete Pouring.jpg',
+          caption: 'Ground Floor Oversite Concrete Pouring',
+          stage: 'Phase 03',
+        },
+        {
+          src: '/images/BYD/BYD First Floor Decking & Beam Formwork Setup.jpg',
+          caption: 'First Floor Decking & Beam Formwork Setup',
+          stage: 'Phase 04',
+        },
+        {
+          src: '/images/BYD/BYD Structural Frame Completion.jpg',
+          caption: 'Structural Frame Completion',
+          stage: 'Phase 05',
+        },
+        {
+          src: '/images/BYD/BYD Finished Showroom Handover.jpg',
+          caption: 'Finished Showroom Handover',
+          stage: 'Phase 06',
+        },
+      ],
+      description:
+        'A modern multi-tier commercial showroom featuring expansive curtain wall glazing, heavy-duty industrial interlocking driveways, corporate composite façade cladding, and reinforced structural frameworks designed for high-load vehicle displays.',
+      details: {
+        location: 'Victoria Island / Lekki Corridor, Lagos',
+        scope:
+          'Ground-up commercial showroom engineering, structural framing, exterior envelope fabrication, and turn-key handover.',
+        focus:
+          'Deep piled subgrade stabilization, load-bearing ground beam gridlines, suspended structural floor systems, integrated curtain-wall glazing, and corporate brand architectural finishes.',
+      },
+    },
     {
       id: 'proj-1',
       title: 'Contemporary Residential Development',
@@ -36,7 +90,6 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
       details: {
         location: 'Lagos Metropolitan Area',
         scope: 'Ground-up residential structural engineering and construction',
-        typology: 'Multi-Unit Contemporary Residential',
         focus: 'Thermal efficiency, reinforced concrete slabs, and modern aesthetics',
       },
     },
@@ -50,7 +103,6 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
       details: {
         location: 'Victoria Island / Ikoyi Corridor',
         scope: 'Multi-story corporate building development',
-        typology: 'Commercial Corporate Headquarters',
         focus: 'Curtain-wall glazing, high-load foundation, accessibility compliance',
       },
     },
@@ -64,22 +116,12 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
       details: {
         location: 'Lagos Urban Residential Zone',
         scope: 'Full structural concrete framework & envelope execution',
-        typology: 'Modern Urban Residential Block',
         focus: 'Brise-soleil solar shading, reinforced beam networks, endurance',
       },
     },
   ];
 
-  const filterTabs: Array<'All' | 'Residential' | 'Commercial'> = [
-    'All',
-    'Residential',
-    'Commercial',
-  ];
-
-  const filteredProjects =
-    activeFilter === 'All'
-      ? projects
-      : projects.filter((p) => p.category === activeFilter);
+  const filteredProjects = projects;
 
   const handleEnquireSimilar = (title: string) => {
     setSelectedProject(null);
@@ -96,8 +138,8 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
     <section id="projects" className="py-24 lg:py-32 bg-black text-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-6">
-          <div className="space-y-4 max-w-2xl">
+        <div className="mb-12 lg:mb-16 max-w-2xl">
+          <div className="space-y-4">
             <div className="inline-flex items-center gap-3">
               <span className="w-8 h-[2px] bg-[#FF007B]" />
               <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
@@ -111,24 +153,6 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
               Explore the architectural possibilities of thoughtful construction and carefully
               executed building projects.
             </p>
-          </div>
-
-          {/* Functional Category Filter Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-900 border border-neutral-800 rounded-md">
-            {filterTabs.map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveFilter(tab)}
-                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded transition-colors whitespace-nowrap cursor-pointer ${
-                  activeFilter === tab
-                    ? 'bg-[#FF007B] text-white shadow-md'
-                    : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
-                }`}
-              >
-                {tab === 'All' ? 'All Projects' : tab}
-              </button>
-            ))}
           </div>
         </div>
 
@@ -145,7 +169,10 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => {
+                setSelectedProject(project);
+                setActiveImage(project.image);
+              }}
               className="group bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden hover:border-[#FF007B] transition-all duration-300 cursor-pointer flex flex-col justify-between"
             >
               <div>
@@ -159,11 +186,6 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-
-                  {/* Category Indicator (Clean unboxed text) */}
-                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider text-[#FF007B] border border-neutral-800">
-                    {project.category}
-                  </div>
                 </div>
 
                 {/* Content Area */}
@@ -197,7 +219,10 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
           aria-modal="true"
           aria-labelledby="modal-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
-          onClick={() => setSelectedProject(null)}
+          onClick={() => {
+            setSelectedProject(null);
+            setActiveImage(null);
+          }}
         >
           <div
             className="relative w-full max-w-3xl bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden shadow-2xl text-white max-h-[90vh] flex flex-col"
@@ -217,8 +242,11 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
               </div>
               <button
                 type="button"
-                onClick={() => setSelectedProject(null)}
-                className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded transition-colors"
+                onClick={() => {
+                  setSelectedProject(null);
+                  setActiveImage(null);
+                }}
+                className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded transition-colors cursor-pointer"
                 aria-label="Close project modal"
               >
                 <X className="w-5 h-5" />
@@ -227,12 +255,12 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
 
             {/* Modal Scrollable Body */}
             <div className="overflow-y-auto p-6 space-y-6">
-              {/* High-Res Image */}
-              <div className="rounded-md overflow-hidden aspect-[16/9] bg-neutral-950 border border-neutral-800">
+              {/* High-Res Image (Interactive with Gallery) */}
+              <div className="rounded-md overflow-hidden aspect-[16/9] bg-neutral-950 border border-neutral-800 relative">
                 <img
-                  src={selectedProject.image}
+                  src={activeImage || selectedProject.image}
                   alt={selectedProject.title}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover object-center transition-all duration-300"
                 />
               </div>
 
@@ -246,27 +274,69 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                 </p>
               </div>
 
-              {/* Technical Specifications Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-lg bg-neutral-950 border border-neutral-800">
+              {/* Technical Specifications Grid (Typology Section Removed) */}
+              <div className="space-y-4 p-5 rounded-lg bg-neutral-950 border border-neutral-800">
                 <div>
                   <span className="text-[11px] uppercase tracking-wider text-neutral-500 font-semibold block mb-1">
                     Project Scope
                   </span>
-                  <p className="text-sm text-neutral-200">{selectedProject.details.scope}</p>
+                  <p className="text-sm text-neutral-200 leading-relaxed">{selectedProject.details.scope}</p>
                 </div>
-                <div>
-                  <span className="text-[11px] uppercase tracking-wider text-neutral-500 font-semibold block mb-1">
-                    Typology
-                  </span>
-                  <p className="text-sm text-neutral-200">{selectedProject.details.typology}</p>
-                </div>
-                <div className="sm:col-span-2 border-t border-neutral-800/80 pt-3">
+                <div className="border-t border-neutral-800/80 pt-3">
                   <span className="text-[11px] uppercase tracking-wider text-neutral-500 font-semibold block mb-1">
                     Engineering &amp; Design Focus
                   </span>
-                  <p className="text-sm text-neutral-200">{selectedProject.details.focus}</p>
+                  <p className="text-sm text-neutral-200 leading-relaxed">{selectedProject.details.focus}</p>
                 </div>
               </div>
+
+              {/* Chronological Construction Execution Gallery */}
+              {selectedProject.galleryImages && selectedProject.galleryImages.length > 0 && (
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-300 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF007B]" />
+                      <span>Project Execution &amp; Site Progress Gallery</span>
+                    </h4>
+                    <span className="text-[11px] text-neutral-500 font-medium">
+                      {selectedProject.galleryImages.length} Milestones
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {selectedProject.galleryImages.map((imgItem, idx) => {
+                      const isCurrent = (activeImage || selectedProject.image) === imgItem.src;
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setActiveImage(imgItem.src)}
+                          className={`text-left group/img rounded-lg overflow-hidden border transition-all duration-200 bg-neutral-950 p-1.5 flex flex-col gap-1.5 cursor-pointer ${
+                            isCurrent
+                              ? 'border-[#FF007B] ring-2 ring-[#FF007B]/40 shadow-lg'
+                              : 'border-neutral-800 hover:border-neutral-700'
+                          }`}
+                        >
+                          <div className="relative aspect-[4/3] rounded overflow-hidden bg-black">
+                            <img
+                              src={imgItem.src}
+                              alt={imgItem.caption}
+                              className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                            <span className="absolute top-1.5 left-1.5 bg-black/85 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded text-[#FF007B] border border-neutral-800">
+                              {imgItem.stage || `Phase 0${idx + 1}`}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-medium text-neutral-300 group-hover/img:text-white line-clamp-1 px-1">
+                            {imgItem.caption}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Modal Footer */}

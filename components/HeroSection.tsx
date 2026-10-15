@@ -14,7 +14,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative bg-white pt-24 sm:pt-28 lg:pt-32 pb-10 sm:pb-14 lg:pb-16 px-3 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative bg-white pt-[76px] sm:pt-[82px] lg:pt-[88px] pb-10 sm:pb-14 lg:pb-16 px-3 sm:px-6 lg:px-8 overflow-hidden"
     >
       {/* High-Resolution Hero Card Container with White Space Around and Underneath */}
       <div className="max-w-7xl mx-auto w-full">
