@@ -143,7 +143,7 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
             <div className="inline-flex items-center gap-3">
               <span className="w-8 h-[2px] bg-[#FF007B]" />
               <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
-                SELECTED PROJECTS
+                OUR PROJECTS
               </span>
             </div>
             <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white leading-tight [text-wrap:balance]">
@@ -154,14 +154,6 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
               executed building projects.
             </p>
           </div>
-        </div>
-
-        {/* Informative Note (Zero Hallucination Honesty per Prompt Instructions) */}
-        <div className="mb-8 text-xs text-neutral-400 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF007B]" />
-          <span>
-            Illustrative architectural portfolio demonstrating design typology and technical construction capabilities.
-          </span>
         </div>
 
         {/* Responsive Projects Gallery */}
