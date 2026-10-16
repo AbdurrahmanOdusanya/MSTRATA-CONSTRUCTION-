@@ -48,10 +48,11 @@ export function AboutSection() {
 
               <div className="relative z-10 rounded-lg overflow-hidden border border-neutral-200 shadow-xl bg-neutral-100 aspect-[4/3] group">
                 <img
-                  src="/images/MSTRATA Team Planning Construction Project.png"
+                  src="/images/MSTRATA Team Planning Construction Project.jpg"
                   alt="MStrata team planning construction project"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                 />
               </div>

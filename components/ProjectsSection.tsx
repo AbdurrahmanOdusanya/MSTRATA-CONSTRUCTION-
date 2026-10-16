@@ -1,28 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ArrowUpRight, X, MapPin, Check, Layers, ExternalLink } from 'lucide-react';
-
-interface ProjectGalleryImage {
-  src: string;
-  caption: string;
-  stage?: string;
-}
-
-interface ProjectItem {
-  id: string;
-  title: string;
-  category: 'Residential' | 'Commercial';
-  image: string;
-  galleryImages?: ProjectGalleryImage[];
-  description: string;
-  details: {
-    location: string;
-    scope: string;
-    focus: string;
-    typology?: string;
-  };
-}
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
+import {
+  ArrowUpRight,
+  ArrowRight,
+  X,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+} from 'lucide-react';
+import { allProjects, ProjectItem } from '@/lib/projectsData';
 
 interface ProjectsSectionProps {
   onSelectProjectForQuote?: (projectTitle: string) => void;
@@ -30,101 +19,14 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [fullscreenGalleryIndex, setFullscreenGalleryIndex] = useState<number | null>(null);
 
-  const projects: ProjectItem[] = [
-    {
-      id: 'proj-byd',
-      title: 'BYD Commercial Automotive Showroom',
-      category: 'Commercial',
-      image: '/images/BYD/BYD Finished Showroom Handover.jpg',
-      galleryImages: [
-        {
-          src: '/images/BYD/BYD Piling Works AND Foundation Drilling.jpg',
-          caption: 'Piling Works & Foundation Drilling',
-          stage: 'Phase 01',
-        },
-        {
-          src: '/images/BYD/BYD Ground Beam Formwork & Reinforcement.jpg',
-          caption: 'Ground Beam Formwork & Reinforcement',
-          stage: 'Phase 02',
-        },
-        {
-          src: '/images/BYD/BYD Ground Floor Oversite Concrete Pouring.jpg',
-          caption: 'Ground Floor Oversite Concrete Pouring',
-          stage: 'Phase 03',
-        },
-        {
-          src: '/images/BYD/BYD First Floor Decking & Beam Formwork Setup.jpg',
-          caption: 'First Floor Decking & Beam Formwork Setup',
-          stage: 'Phase 04',
-        },
-        {
-          src: '/images/BYD/BYD Structural Frame Completion.jpg',
-          caption: 'Structural Frame Completion',
-          stage: 'Phase 05',
-        },
-        {
-          src: '/images/BYD/BYD Finished Showroom Handover.jpg',
-          caption: 'Finished Showroom Handover',
-          stage: 'Phase 06',
-        },
-      ],
-      description:
-        'A modern multi-tier commercial showroom featuring expansive curtain wall glazing, heavy-duty industrial interlocking driveways, corporate composite façade cladding, and reinforced structural frameworks designed for high-load vehicle displays.',
-      details: {
-        location: 'Victoria Island / Lekki Corridor, Lagos',
-        scope:
-          'Ground-up commercial showroom engineering, structural framing, exterior envelope fabrication, and turn-key handover.',
-        focus:
-          'Deep piled subgrade stabilization, load-bearing ground beam gridlines, suspended structural floor systems, integrated curtain-wall glazing, and corporate brand architectural finishes.',
-      },
-    },
-    {
-      id: 'proj-1',
-      title: 'Contemporary Residential Development',
-      category: 'Residential',
-      image: '/images/project_residential_dev_1791823229300.jpg',
-      description:
-        'A multi-unit modern duplex development featuring cantilevered private balconies, integrated perimeter landscaping, and reinforced structural frameworks.',
-      details: {
-        location: 'Lagos Metropolitan Area',
-        scope: 'Ground-up residential structural engineering and construction',
-        focus: 'Thermal efficiency, reinforced concrete slabs, and modern aesthetics',
-      },
-    },
-    {
-      id: 'proj-2',
-      title: 'Modern Commercial Building',
-      category: 'Commercial',
-      image: '/images/commercial_building_1791823325101.jpg',
-      description:
-        'A contemporary commercial complex engineered with structural curtain wall glazing, dark metal facades, and flexible open-plan office layouts.',
-      details: {
-        location: 'Victoria Island / Ikoyi Corridor',
-        scope: 'Multi-story corporate building development',
-        focus: 'Curtain-wall glazing, high-load foundation, accessibility compliance',
-      },
-    },
-    {
-      id: 'proj-6',
-      title: 'Urban Residential Construction',
-      category: 'Residential',
-      image: '/images/why_choose_structure_1791823217324.jpg',
-      description:
-        'Solid concrete superstructure with geometric brise-soleil facades, deep window reveals, and high-strength reinforced columns.',
-      details: {
-        location: 'Lagos Urban Residential Zone',
-        scope: 'Full structural concrete framework & envelope execution',
-        focus: 'Brise-soleil solar shading, reinforced beam networks, endurance',
-      },
-    },
-  ];
-
-  const filteredProjects = projects;
+  // Exactly 4 featured project cards for the home page project section
+  const displayedProjects = allProjects.slice(0, 4);
 
   const handleEnquireSimilar = (title: string) => {
     setSelectedProject(null);
+    setFullscreenGalleryIndex(null);
     if (onSelectProjectForQuote) {
       onSelectProjectForQuote(title);
     }
@@ -132,6 +34,65 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
     if (contactEl) {
       contactEl.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  // Gallery Navigation Handlers
+  const currentGallery = selectedProject?.galleryImages || [];
+
+  const handlePrevGalleryImage = useCallback(() => {
+    setFullscreenGalleryIndex((prev) => {
+      if (prev === null || currentGallery.length === 0) return null;
+      return prev > 0 ? prev - 1 : currentGallery.length - 1;
+    });
+  }, [currentGallery.length]);
+
+  const handleNextGalleryImage = useCallback(() => {
+    setFullscreenGalleryIndex((prev) => {
+      if (prev === null || currentGallery.length === 0) return null;
+      return prev < currentGallery.length - 1 ? prev + 1 : 0;
+    });
+  }, [currentGallery.length]);
+
+  // Keyboard navigation for fullscreen carousel
+  useEffect(() => {
+    if (fullscreenGalleryIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        handleNextGalleryImage();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevGalleryImage();
+      } else if (e.key === 'Escape') {
+        setFullscreenGalleryIndex(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [fullscreenGalleryIndex, handleNextGalleryImage, handlePrevGalleryImage]);
+
+  // Touch swipe support for mobile and tablet
+  const touchStartXRef = useRef<number | null>(null);
+  const touchEndXRef = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.targetTouches[0].clientX;
+    touchEndXRef.current = null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartXRef.current === null || touchEndXRef.current === null) return;
+    const distance = touchStartXRef.current - touchEndXRef.current;
+    const minSwipeDistance = 40;
+    if (distance > minSwipeDistance) {
+      handleNextGalleryImage();
+    } else if (distance < -minSwipeDistance) {
+      handlePrevGalleryImage();
+    }
+    touchStartXRef.current = null;
+    touchEndXRef.current = null;
   };
 
   return (
@@ -156,14 +117,14 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
           </div>
         </div>
 
-        {/* Responsive Projects Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+        {/* Responsive Projects Gallery (Top 4 Featured Projects on Home) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {displayedProjects.map((project) => (
             <div
               key={project.id}
               onClick={() => {
                 setSelectedProject(project);
-                setActiveImage(project.image);
+                setFullscreenGalleryIndex(null);
               }}
               className="group bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden hover:border-[#FF007B] transition-all duration-300 cursor-pointer flex flex-col justify-between"
             >
@@ -197,10 +158,26 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                   <span>View Project</span>
                   <ArrowUpRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </span>
-                <span className="text-[11px] text-neutral-400 font-normal">Lagos, NG</span>
+                <span className="text-[11px] text-neutral-400 font-normal truncate max-w-[150px] text-right">
+                  {project.details.location}
+                </span>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Explore All Projects Link Button */}
+        <div className="mt-12 sm:mt-16 text-center flex flex-col items-center justify-center gap-3">
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-3 px-8 sm:px-10 py-4 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-[#FF007B] text-white hover:text-white font-bold text-xs sm:text-sm uppercase tracking-widest shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-[#FF007B]/20 hover:-translate-y-0.5 cursor-pointer"
+          >
+            <span>explore our projects</span>
+            <ArrowRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-1.5 transition-transform duration-300" />
+          </Link>
+          <p className="text-xs text-neutral-400">
+            View full portfolio with all completed &amp; ongoing building projects across Lagos
+          </p>
         </div>
       </div>
 
@@ -210,14 +187,14 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
           onClick={() => {
             setSelectedProject(null);
-            setActiveImage(null);
+            setFullscreenGalleryIndex(null);
           }}
         >
           <div
-            className="relative w-full max-w-3xl bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden shadow-2xl text-white max-h-[90vh] flex flex-col"
+            className="relative w-full max-w-4xl bg-neutral-900 border border-neutral-700 rounded-xl overflow-hidden shadow-2xl text-white max-h-[92vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header Bar */}
@@ -236,7 +213,7 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                 type="button"
                 onClick={() => {
                   setSelectedProject(null);
-                  setActiveImage(null);
+                  setFullscreenGalleryIndex(null);
                 }}
                 className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded transition-colors cursor-pointer"
                 aria-label="Close project modal"
@@ -247,13 +224,17 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
 
             {/* Modal Scrollable Body */}
             <div className="overflow-y-auto p-6 space-y-6">
-              {/* High-Res Image (Interactive with Gallery) */}
-              <div className="rounded-md overflow-hidden aspect-[16/9] bg-neutral-950 border border-neutral-800 relative">
+              {/* High-Res Main Showcase Image (Strictly Main Project Image Only) */}
+              <div className="rounded-lg overflow-hidden aspect-[16/9] bg-neutral-950 border border-neutral-800 relative shadow-inner">
                 <img
-                  src={activeImage || selectedProject.image}
+                  src={selectedProject.image}
                   alt={selectedProject.title}
-                  className="w-full h-full object-cover object-center transition-all duration-300"
+                  className="w-full h-full object-cover object-center"
                 />
+                <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-md border border-neutral-700/80 flex items-center gap-1.5 shadow-md">
+                  <span className="w-2 h-2 rounded-full bg-[#FF007B]" />
+                  <span>Main Project Showcase</span>
+                </div>
               </div>
 
               {/* Title & Description */}
@@ -266,7 +247,7 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                 </p>
               </div>
 
-              {/* Technical Specifications Grid (Typology Section Removed) */}
+              {/* Technical Specifications Grid */}
               <div className="space-y-4 p-5 rounded-lg bg-neutral-950 border border-neutral-800">
                 <div>
                   <span className="text-[11px] uppercase tracking-wider text-neutral-500 font-semibold block mb-1">
@@ -284,48 +265,62 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
 
               {/* Chronological Construction Execution Gallery */}
               {selectedProject.galleryImages && selectedProject.galleryImages.length > 0 && (
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-300 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF007B]" />
-                      <span>Project Execution &amp; Site Progress Gallery</span>
-                    </h4>
-                    <span className="text-[11px] text-neutral-500 font-medium">
+                <div className="space-y-4 pt-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-neutral-800">
+                    <div>
+                      <h4 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#FF007B]" />
+                        <span>Project Execution &amp; Site Progress Gallery</span>
+                      </h4>
+                      <p className="text-xs text-neutral-400 mt-0.5">
+                        Click any phase card to inspect in full-screen interactive carousel
+                      </p>
+                    </div>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-800/90 text-neutral-300 w-fit">
                       {selectedProject.galleryImages.length} Milestones
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {selectedProject.galleryImages.map((imgItem, idx) => {
-                      const isCurrent = (activeImage || selectedProject.image) === imgItem.src;
-                      return (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => setActiveImage(imgItem.src)}
-                          className={`text-left group/img rounded-lg overflow-hidden border transition-all duration-200 bg-neutral-950 p-1.5 flex flex-col gap-1.5 cursor-pointer ${
-                            isCurrent
-                              ? 'border-[#FF007B] ring-2 ring-[#FF007B]/40 shadow-lg'
-                              : 'border-neutral-800 hover:border-neutral-700'
-                          }`}
-                        >
-                          <div className="relative aspect-[4/3] rounded overflow-hidden bg-black">
-                            <img
-                              src={imgItem.src}
-                              alt={imgItem.caption}
-                              className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
-                              loading="lazy"
-                            />
-                            <span className="absolute top-1.5 left-1.5 bg-black/85 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded text-[#FF007B] border border-neutral-800">
-                              {imgItem.stage || `Phase 0${idx + 1}`}
+                  {/* Larger Phase Image Cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
+                    {selectedProject.galleryImages.map((imgItem, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => setFullscreenGalleryIndex(idx)}
+                        className="group/img text-left rounded-xl overflow-hidden border border-neutral-800 hover:border-[#FF007B] transition-all duration-300 bg-neutral-950 p-3 sm:p-3.5 flex flex-col gap-3 cursor-pointer shadow-md hover:shadow-xl hover:shadow-[#FF007B]/10 hover:-translate-y-0.5"
+                      >
+                        {/* High-Impact Big Image Preview */}
+                        <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-neutral-900">
+                          <img
+                            src={imgItem.src}
+                            alt={imgItem.caption}
+                            className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-50 group-hover/img:opacity-20 transition-opacity" />
+                          <span className="absolute top-2.5 left-2.5 bg-black/85 backdrop-blur-sm text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded text-[#FF007B] border border-neutral-700/80 shadow-md">
+                            {imgItem.stage || `Phase 0${idx + 1}`}
+                          </span>
+                          <span className="absolute bottom-2.5 right-2.5 bg-black/85 backdrop-blur-sm text-xs font-semibold text-white px-2.5 py-1 rounded flex items-center gap-1.5 opacity-90 group-hover/img:opacity-100 transition-opacity border border-neutral-700/80 shadow-md">
+                            <Maximize2 className="w-3.5 h-3.5 text-[#FF007B]" />
+                            <span>View Fullscreen</span>
+                          </span>
+                        </div>
+
+                        {/* Title and Stage Meta */}
+                        <div className="space-y-1 px-1">
+                          <h5 className="text-sm sm:text-base font-bold text-white group-hover/img:text-[#FF007B] transition-colors leading-snug">
+                            {imgItem.caption}
+                          </h5>
+                          <div className="flex items-center justify-between text-xs text-neutral-400 pt-0.5">
+                            <span>Stage {idx + 1} of {selectedProject.galleryImages?.length}</span>
+                            <span className="text-[#FF007B] text-[11px] font-medium flex items-center gap-1">
+                              Tap to open carousel &rarr;
                             </span>
                           </div>
-                          <span className="text-[11px] font-medium text-neutral-300 group-hover/img:text-white line-clamp-1 px-1">
-                            {imgItem.caption}
-                          </span>
-                        </button>
-                      );
-                    })}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -344,6 +339,128 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                 <span>Enquire About Similar Project</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Fullscreen Interactive Carousel Lightbox */}
+      {selectedProject && fullscreenGalleryIndex !== null && selectedProject.galleryImages && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[70] bg-black/95 backdrop-blur-xl flex flex-col justify-between p-3 sm:p-6 animate-in fade-in duration-200"
+          onClick={() => setFullscreenGalleryIndex(null)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Top Bar: Info, Progress & Close Button */}
+          <div
+            className="flex items-center justify-between gap-4 px-3 sm:px-5 py-2.5 border-b border-neutral-800/80 bg-neutral-950/70 rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <span className="bg-[#FF007B] text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded shrink-0">
+                {selectedProject.galleryImages[fullscreenGalleryIndex].stage || `Phase 0${fullscreenGalleryIndex + 1}`}
+              </span>
+              <div className="truncate">
+                <h4 className="text-sm sm:text-base font-bold text-white truncate">
+                  {selectedProject.galleryImages[fullscreenGalleryIndex].caption}
+                </h4>
+                <p className="text-[11px] sm:text-xs text-neutral-400 truncate">
+                  {selectedProject.title} &middot; Milestone {fullscreenGalleryIndex + 1} of {selectedProject.galleryImages.length}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <span className="hidden sm:inline-block text-xs font-semibold text-neutral-300 bg-neutral-900 border border-neutral-800 px-3 py-1 rounded-full">
+                {fullscreenGalleryIndex + 1} / {selectedProject.galleryImages.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => setFullscreenGalleryIndex(null)}
+                className="p-2 sm:p-2.5 text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-lg transition-colors cursor-pointer"
+                aria-label="Close fullscreen gallery"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            </div>
+          </div>
+
+          {/* Main Carousel Display Area */}
+          <div
+            className="relative flex-1 flex items-center justify-center py-2 sm:py-4 px-2 sm:px-14 my-auto overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Previous Image Arrow */}
+            <button
+              type="button"
+              onClick={handlePrevGalleryImage}
+              aria-label="Previous image"
+              className="absolute left-2 sm:left-4 z-20 p-2.5 sm:p-3.5 rounded-full bg-neutral-900/90 hover:bg-[#FF007B] text-white border border-neutral-700/80 hover:border-[#FF007B] transition-all shadow-xl hover:scale-105 cursor-pointer backdrop-blur-md"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            {/* Current Active Image in Full Scale */}
+            <div className="relative max-h-[64vh] sm:max-h-[72vh] md:max-h-[76vh] max-w-full flex items-center justify-center">
+              <img
+                src={selectedProject.galleryImages[fullscreenGalleryIndex].src}
+                alt={selectedProject.galleryImages[fullscreenGalleryIndex].caption}
+                className="max-h-[64vh] sm:max-h-[72vh] md:max-h-[76vh] w-auto max-w-full object-contain rounded-lg shadow-2xl border border-neutral-800"
+              />
+            </div>
+
+            {/* Next Image Arrow */}
+            <button
+              type="button"
+              onClick={handleNextGalleryImage}
+              aria-label="Next image"
+              className="absolute right-2 sm:right-4 z-20 p-2.5 sm:p-3.5 rounded-full bg-neutral-900/90 hover:bg-[#FF007B] text-white border border-neutral-700/80 hover:border-[#FF007B] transition-all shadow-xl hover:scale-105 cursor-pointer backdrop-blur-md"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+          </div>
+
+          {/* Bottom Controls: Thumbnail Bar + Swipe Hint */}
+          <div
+            className="flex flex-col items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 border-t border-neutral-800/80 bg-neutral-950/70 rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Thumbnail previews for fast jumping */}
+            <div className="flex items-center gap-2.5 overflow-x-auto max-w-full py-1 px-1 scrollbar-thin">
+              {selectedProject.galleryImages.map((thumb, tIdx) => {
+                const isActive = tIdx === fullscreenGalleryIndex;
+                return (
+                  <button
+                    key={tIdx}
+                    type="button"
+                    onClick={() => setFullscreenGalleryIndex(tIdx)}
+                    className={`relative rounded-md overflow-hidden flex-shrink-0 transition-all cursor-pointer ${
+                      isActive
+                        ? 'ring-2 ring-[#FF007B] border-[#FF007B] scale-105 shadow-md shadow-[#FF007B]/30'
+                        : 'border border-neutral-800 opacity-60 hover:opacity-100 hover:border-neutral-600'
+                    }`}
+                  >
+                    <img
+                      src={thumb.src}
+                      alt={thumb.caption}
+                      className="w-14 h-10 sm:w-18 sm:h-12 object-cover"
+                    />
+                    <span className="absolute bottom-0 inset-x-0 bg-black/85 text-[8px] sm:text-[9px] text-center text-white font-mono leading-tight py-0.5 truncate">
+                      {thumb.stage || `0${tIdx + 1}`}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Hints */}
+            <div className="flex items-center justify-between w-full text-[11px] text-neutral-400 px-2">
+              <span className="hidden sm:inline">Use &larr; / &rarr; keys or side arrows to navigate &middot; Esc to close</span>
+              <span className="sm:hidden mx-auto text-neutral-400">Swipe left/right or tap arrows to view milestones</span>
             </div>
           </div>
         </div>

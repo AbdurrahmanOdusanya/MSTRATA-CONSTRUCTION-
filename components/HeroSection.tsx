@@ -26,6 +26,8 @@ export function HeroSection() {
               alt="MStrata Construction Company site in Lagos Nigeria"
               className="w-full h-full object-cover object-center"
               loading="eager"
+              decoding="async"
+              fetchPriority="high"
               referrerPolicy="no-referrer"
             />
             {/* Subtle dark gradient overlay to keep text legible */}
