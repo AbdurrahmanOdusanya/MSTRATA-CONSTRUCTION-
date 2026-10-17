@@ -170,10 +170,10 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
         <div className="mt-12 sm:mt-16 text-center flex flex-col items-center justify-center gap-3">
           <Link
             href="/projects"
-            className="group inline-flex items-center gap-3 px-8 sm:px-10 py-4 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-[#FF007B] text-white hover:text-white font-bold text-xs sm:text-sm uppercase tracking-widest shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-[#FF007B]/20 hover:-translate-y-0.5 cursor-pointer"
+            className="group inline-flex items-center gap-3 px-8 sm:px-10 py-4 rounded-xl bg-[#FF007B] hover:bg-[#E0006C] border border-[#FF007B] text-white font-bold text-xs sm:text-sm uppercase tracking-widest shadow-xl shadow-[#FF007B]/30 hover:shadow-2xl hover:shadow-[#FF007B]/50 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 cursor-pointer"
           >
-            <span>explore our projects</span>
-            <ArrowRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-1.5 transition-transform duration-300" />
+            <span>Explore Our Projects</span>
+            <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1.5 transition-transform duration-300" />
           </Link>
           <p className="text-xs text-neutral-400">
             View full portfolio with all completed &amp; ongoing building projects across Lagos
