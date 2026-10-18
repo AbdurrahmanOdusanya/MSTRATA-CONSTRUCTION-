@@ -150,14 +150,14 @@ export function Navbar() {
 
             <div className="grid grid-cols-2 gap-2 pt-1 text-xs text-neutral-700 font-medium">
               <a
-                href="tel:+2348061945604"
+                href="tel:+2347036189196"
                 className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-neutral-100 hover:bg-neutral-200 rounded text-neutral-800 transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-[#FF007B]" />
                 <span>Call Us</span>
               </a>
               <a
-                href="https://wa.me/2347036189196"
+                href="https://wa.me/2348061945604"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-neutral-100 hover:bg-neutral-200 rounded text-neutral-800 transition-colors"

@@ -100,7 +100,7 @@ export function ContactSection({
 • Location: ${data.location || 'Lagos, Nigeria'}
 • Project Details: ${data.details || 'General project inquiry'}`;
 
-    return `https://wa.me/2347036189196?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/2348061945604?text=${encodeURIComponent(text)}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -196,17 +196,17 @@ export function ContactSection({
                         WhatsApp Enquiry
                       </span>
                       <a
-                        href="https://wa.me/2347036189196"
+                        href="https://wa.me/2348061945604"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm font-semibold text-white hover:text-[#FF007B] transition-colors"
                       >
-                        07036189196
+                        +234 806 194 5604
                       </a>
                     </div>
                   </div>
                   <a
-                    href="https://wa.me/2347036189196"
+                    href="https://wa.me/2348061945604"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider bg-[#FF007B] text-white rounded hover:bg-[#E0006C] transition-colors"
@@ -226,15 +226,15 @@ export function ContactSection({
                         Direct Phone / Call
                       </span>
                       <a
-                        href="tel:+2348061945604"
+                        href="tel:+2347036189196"
                         className="text-sm font-semibold text-white hover:text-[#FF007B] transition-colors"
                       >
-                        08061945604
+                        +234 703 618 9196
                       </a>
                     </div>
                   </div>
                   <a
-                    href="tel:+2348061945604"
+                    href="tel:+2347036189196"
                     className="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white rounded transition-colors"
                   >
                     Call

@@ -116,19 +116,19 @@ export function Footer() {
               </span>
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs sm:text-sm font-semibold text-neutral-800">
                 <a
-                  href="tel:+2348061945604"
+                  href="tel:+2347036189196"
                   className="hover:text-[#FF007B] transition-colors"
                 >
-                  +234 806 194 5604
+                  +234 703 618 9196
                 </a>
                 <span className="text-neutral-400 hidden sm:inline">&middot;</span>
                 <a
-                  href="https://wa.me/2347036189196"
+                  href="https://wa.me/2348061945604"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[#FF007B] transition-colors font-medium text-neutral-600"
                 >
-                  07036189196 (WhatsApp)
+                  +234 806 194 5604 (WhatsApp)
                 </a>
               </div>
             </div>
@@ -168,7 +168,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://wa.me/2347036189196"
+                  href="https://wa.me/2348061945604"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-[#FF007B] transition-colors group"

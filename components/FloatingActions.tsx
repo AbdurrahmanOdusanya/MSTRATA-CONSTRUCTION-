@@ -25,7 +25,7 @@ export function FloatingActions() {
     >
       {/* Floating WhatsApp Quick Button - Icon-only button with no text */}
       <a
-        href="https://wa.me/2347036189196"
+        href="https://wa.me/2348061945604"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with MStrata Construction Company on WhatsApp"

@@ -67,7 +67,7 @@ const jsonLd = {
     addressRegion: 'Lagos State',
     addressCountry: 'NG',
   },
-  telephone: '+2348061945604',
+  telephone: '+2347036189196',
   email: 'mstrataconstructionc@gmail.com',
   url: 'https://mstrataconstruction.ng',
   priceRange: '$$',
