@@ -12,6 +12,7 @@ import {
   Maximize2,
 } from 'lucide-react';
 import { allProjects, ProjectItem } from '@/lib/projectsData';
+import { Reveal } from './Reveal';
 
 interface ProjectsSectionProps {
   onSelectProjectForQuote?: (projectTitle: string) => void;
@@ -99,7 +100,7 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
     <section id="projects" className="py-24 lg:py-32 bg-black text-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-12 lg:mb-16 max-w-2xl">
+        <Reveal direction="up" distance={24} duration={0.65} className="mb-12 lg:mb-16 max-w-2xl">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-3">
               <span className="w-8 h-[2px] bg-[#FF007B]" />
@@ -115,59 +116,68 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
               executed building projects.
             </p>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Responsive Projects Gallery (Top 4 Featured Projects on Home) */}
+        {/* Responsive Projects Gallery (Top 4 Featured Projects on Home) with Staggered Reveal */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {displayedProjects.map((project) => (
-            <div
+          {displayedProjects.map((project, idx) => (
+            <Reveal
               key={project.id}
-              onClick={() => {
-                setSelectedProject(project);
-                setFullscreenGalleryIndex(null);
-              }}
-              className="group bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden hover:border-[#FF007B] transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              direction="up"
+              distance={28}
+              delay={idx * 0.1}
+              duration={0.65}
+              className="h-full"
             >
-              <div>
-                {/* Project Image Container */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+              <div
+                onClick={() => {
+                  setSelectedProject(project);
+                  setFullscreenGalleryIndex(null);
+                }}
+                className="group bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden hover:border-[#FF007B] transition-all duration-300 cursor-pointer flex flex-col justify-between h-full"
+              >
+                <div>
+                  {/* Project Image Container */}
+                  <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                  </div>
+
+                  {/* Content Area */}
+                  <div className="p-6 space-y-3">
+                    <h3 className="font-heading font-bold text-xl text-white group-hover:text-[#FF007B] transition-colors leading-snug">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-neutral-400 line-clamp-2 leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Content Area */}
-                <div className="p-6 space-y-3">
-                  <h3 className="font-heading font-bold text-xl text-white group-hover:text-[#FF007B] transition-colors leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-neutral-400 line-clamp-2 leading-relaxed">
-                    {project.description}
-                  </p>
+                {/* Card Footer: View Project Action */}
+                <div className="px-6 pb-6 pt-2 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-300 group-hover:text-white border-t border-neutral-800/80">
+                  <span className="flex items-center gap-1.5">
+                    <span>View Project</span>
+                    <ArrowUpRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                  <span className="text-[11px] text-neutral-400 font-normal truncate max-w-[150px] text-right">
+                    {project.details.location}
+                  </span>
                 </div>
               </div>
-
-              {/* Card Footer: View Project Action */}
-              <div className="px-6 pb-6 pt-2 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-300 group-hover:text-white border-t border-neutral-800/80">
-                <span className="flex items-center gap-1.5">
-                  <span>View Project</span>
-                  <ArrowUpRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </span>
-                <span className="text-[11px] text-neutral-400 font-normal truncate max-w-[150px] text-right">
-                  {project.details.location}
-                </span>
-              </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         {/* Explore All Projects Link Button */}
-        <div className="mt-12 sm:mt-16 text-center flex flex-col items-center justify-center gap-3">
+        <Reveal direction="up" distance={20} delay={0.2} duration={0.6} className="mt-12 sm:mt-16 text-center flex flex-col items-center justify-center gap-3">
           <Link
             href="/projects"
             className="group inline-flex items-center gap-3 px-8 sm:px-10 py-4 rounded-xl bg-[#FF007B] hover:bg-[#E0006C] border border-[#FF007B] text-white font-bold text-xs sm:text-sm uppercase tracking-widest shadow-xl shadow-[#FF007B]/30 hover:shadow-2xl hover:shadow-[#FF007B]/50 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 cursor-pointer"
@@ -178,7 +188,7 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
           <p className="text-xs text-neutral-400">
             View full portfolio with all completed &amp; ongoing building projects across Lagos
           </p>
-        </div>
+        </Reveal>
       </div>
 
       {/* Elegant Project Detail Modal */}

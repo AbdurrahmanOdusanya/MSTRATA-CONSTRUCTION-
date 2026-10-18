@@ -7,6 +7,7 @@ import {
   Building2,
   CalendarCheck,
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 interface ServicesSectionProps {
   onSelectService?: (serviceName: string) => void;
@@ -48,7 +49,7 @@ export function ServicesSection({ onSelectService: _onSelectService }: ServicesS
     <section id="services" className="py-24 lg:py-32 bg-neutral-100/70 text-neutral-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 lg:mb-20 gap-6">
+        <Reveal direction="up" distance={24} duration={0.65} className="flex flex-col md:flex-row md:items-end justify-between mb-16 lg:mb-20 gap-6">
           <div className="space-y-4 max-w-2xl">
             <div className="inline-flex items-center gap-3">
               <span className="w-8 h-[2px] bg-[#FF007B]" />
@@ -64,61 +65,69 @@ export function ServicesSection({ onSelectService: _onSelectService }: ServicesS
               through execution and handover.
             </p>
           </div>
-        </div>
+        </Reveal>
 
-        {/* 4 Services Responsive Grid */}
+        {/* 4 Services Responsive Grid with Staggered Reveal */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {services.map((item, index) => {
             const Icon = item.icon;
             const isFeatured = index === 0 || index === 2;
 
             return (
-              <div
+              <Reveal
                 key={item.number}
-                className={`relative p-8 rounded-lg border transition-all duration-300 flex flex-col group ${
-                  isFeatured
-                    ? 'bg-neutral-900 border-neutral-800 text-white shadow-xl hover:border-[#FF007B]/60'
-                    : 'bg-white border-neutral-200/90 text-neutral-900 shadow-xs hover:border-[#FF007B] hover:shadow-lg'
-                }`}
+                direction="up"
+                distance={28}
+                delay={index * 0.08}
+                duration={0.6}
+                className="h-full"
               >
-                <div>
-                  {/* Top Bar: Icon and Clean Editorial Number */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div
-                      className={`w-12 h-12 rounded flex items-center justify-center transition-colors ${
-                        isFeatured
-                          ? 'bg-[#FF007B] text-white'
-                          : 'bg-neutral-100 text-black group-hover:bg-[#FF007B] group-hover:text-white'
-                      }`}
-                    >
-                      <Icon className="w-6 h-6" />
+                <div
+                  className={`relative p-8 rounded-lg border transition-all duration-300 flex flex-col h-full group ${
+                    isFeatured
+                      ? 'bg-neutral-900 border-neutral-800 text-white shadow-xl hover:border-[#FF007B]/60'
+                      : 'bg-white border-neutral-200/90 text-neutral-900 shadow-xs hover:border-[#FF007B] hover:shadow-lg'
+                  }`}
+                >
+                  <div>
+                    {/* Top Bar: Icon and Clean Editorial Number */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div
+                        className={`w-12 h-12 rounded flex items-center justify-center transition-colors ${
+                          isFeatured
+                            ? 'bg-[#FF007B] text-white'
+                            : 'bg-neutral-100 text-black group-hover:bg-[#FF007B] group-hover:text-white'
+                        }`}
+                      >
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span
+                        className={`font-heading font-bold text-lg tracking-wider ${
+                          isFeatured ? 'text-neutral-500' : 'text-neutral-400'
+                        }`}
+                      >
+                        {item.number}
+                      </span>
                     </div>
-                    <span
-                      className={`font-heading font-bold text-lg tracking-wider ${
-                        isFeatured ? 'text-neutral-500' : 'text-neutral-400'
+
+                    {/* Title & Description */}
+                    <h3
+                      className={`font-heading font-bold text-xl mb-3 tracking-tight group-hover:text-[#FF007B] transition-colors ${
+                        isFeatured ? 'text-white' : 'text-black'
                       }`}
                     >
-                      {item.number}
-                    </span>
+                      {item.title}
+                    </h3>
+                    <p
+                      className={`text-sm leading-relaxed ${
+                        isFeatured ? 'text-neutral-300' : 'text-neutral-600'
+                      }`}
+                    >
+                      {item.description}
+                    </p>
                   </div>
-
-                  {/* Title & Description */}
-                  <h3
-                    className={`font-heading font-bold text-xl mb-3 tracking-tight group-hover:text-[#FF007B] transition-colors ${
-                      isFeatured ? 'text-white' : 'text-black'
-                    }`}
-                  >
-                    {item.title}
-                  </h3>
-                  <p
-                    className={`text-sm leading-relaxed ${
-                      isFeatured ? 'text-neutral-300' : 'text-neutral-600'
-                    }`}
-                  >
-                    {item.description}
-                  </p>
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>

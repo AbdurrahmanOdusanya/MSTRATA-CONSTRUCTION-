@@ -9,6 +9,7 @@ import {
   Ruler,
   Handshake,
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 export function WhyChooseUsSection() {
   const leftBenefits = [
@@ -53,13 +54,11 @@ export function WhyChooseUsSection() {
     },
   ];
 
-
-
   return (
     <section id="why-us" className="py-24 lg:py-32 bg-white text-neutral-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="space-y-4 mb-16 lg:mb-20 max-w-3xl">
+        <Reveal direction="up" distance={24} duration={0.65} className="space-y-4 mb-16 lg:mb-20 max-w-3xl">
           <div className="inline-flex items-center gap-3">
             <span className="w-8 h-[2px] bg-[#FF007B]" />
             <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
@@ -73,44 +72,49 @@ export function WhyChooseUsSection() {
             Every project deserves thoughtful planning, disciplined execution, and an engineering team
             that values the outcome as much as the process.
           </p>
-        </div>
+        </Reveal>
 
-        {/* 3-Column Image-and-Benefits Composition */}
+        {/* 3-Column Image-and-Benefits Composition with Scroll Reveal */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 xl:gap-8 items-center">
           {/* Left Benefits Column */}
           <div className="order-2 lg:order-1 lg:col-span-4 space-y-4 sm:space-y-5">
-            {leftBenefits.map((item) => {
+            {leftBenefits.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div
+                <Reveal
                   key={item.title}
-                  className="p-5 sm:p-6 rounded-2xl bg-neutral-50/80 border border-neutral-200/80 hover:border-[#FF007B]/50 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
+                  direction="up"
+                  distance={24}
+                  delay={idx * 0.08}
+                  duration={0.6}
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#FF007B]/10 text-[#FF007B] flex items-center justify-center shrink-0 group-hover:bg-[#FF007B] group-hover:text-white transition-all duration-300 shadow-xs">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <h3 className="font-heading font-bold text-base sm:text-lg text-neutral-900 group-hover:text-[#FF007B] transition-colors">
-                          {item.title}
-                        </h3>
-                        <span className="text-[11px] font-mono font-bold text-neutral-400">
-                          {item.index}
-                        </span>
+                  <div className="p-5 sm:p-6 rounded-2xl bg-neutral-50/80 border border-neutral-200/80 hover:border-[#FF007B]/50 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[#FF007B]/10 text-[#FF007B] flex items-center justify-center shrink-0 group-hover:bg-[#FF007B] group-hover:text-white transition-all duration-300 shadow-xs">
+                        <Icon className="w-5 h-5" />
                       </div>
-                      <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                        {item.description}
-                      </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <h3 className="font-heading font-bold text-base sm:text-lg text-neutral-900 group-hover:text-[#FF007B] transition-colors">
+                            {item.title}
+                          </h3>
+                          <span className="text-[11px] font-mono font-bold text-neutral-400">
+                            {item.index}
+                          </span>
+                        </div>
+                        <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>
 
           {/* Center Column: Confident Construction Engineer Focal Portrait */}
-          <div className="order-1 lg:order-2 lg:col-span-4 flex justify-center py-2 lg:py-0">
+          <Reveal direction="none" delay={0.15} duration={0.7} className="order-1 lg:order-2 lg:col-span-4 flex justify-center py-2 lg:py-0">
             <div className="relative w-full max-w-md mx-auto">
               {/* Outer Subtle Architectural Accent Frame */}
               <div className="absolute -inset-2.5 rounded-[2.5rem] border border-dashed border-[#FF007B]/25 pointer-events-none -z-0" />
@@ -131,46 +135,51 @@ export function WhyChooseUsSection() {
                     alt="MStrata Construction Lead Engineer on site with hardhat and architectural plans"
                     className="w-full max-w-[350px] sm:max-w-[390px] h-auto object-contain object-bottom align-bottom block drop-shadow-[0_20px_25px_rgba(0,0,0,0.25)] select-none pointer-events-none -mb-px"
                     loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Right Benefits Column */}
           <div className="order-3 lg:order-3 lg:col-span-4 space-y-4 sm:space-y-5">
-            {rightBenefits.map((item) => {
+            {rightBenefits.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div
+                <Reveal
                   key={item.title}
-                  className="p-5 sm:p-6 rounded-2xl bg-neutral-50/80 border border-neutral-200/80 hover:border-[#FF007B]/50 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
+                  direction="up"
+                  distance={24}
+                  delay={0.1 + idx * 0.08}
+                  duration={0.6}
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#FF007B]/10 text-[#FF007B] flex items-center justify-center shrink-0 group-hover:bg-[#FF007B] group-hover:text-white transition-all duration-300 shadow-xs">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <h3 className="font-heading font-bold text-base sm:text-lg text-neutral-900 group-hover:text-[#FF007B] transition-colors">
-                          {item.title}
-                        </h3>
-                        <span className="text-[11px] font-mono font-bold text-neutral-400">
-                          {item.index}
-                        </span>
+                  <div className="p-5 sm:p-6 rounded-2xl bg-neutral-50/80 border border-neutral-200/80 hover:border-[#FF007B]/50 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[#FF007B]/10 text-[#FF007B] flex items-center justify-center shrink-0 group-hover:bg-[#FF007B] group-hover:text-white transition-all duration-300 shadow-xs">
+                        <Icon className="w-5 h-5" />
                       </div>
-                      <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                        {item.description}
-                      </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <h3 className="font-heading font-bold text-base sm:text-lg text-neutral-900 group-hover:text-[#FF007B] transition-colors">
+                            {item.title}
+                          </h3>
+                          <span className="text-[11px] font-mono font-bold text-neutral-400">
+                            {item.index}
+                          </span>
+                        </div>
+                        <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>
         </div>
-
       </div>
     </section>
   );

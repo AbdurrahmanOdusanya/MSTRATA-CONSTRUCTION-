@@ -14,6 +14,7 @@ import {
   ExternalLink,
   AlertCircle,
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 interface ContactSectionProps {
   initialService?: string;
@@ -136,7 +137,7 @@ export function ContactSection({
     <section id="contact" className="py-24 lg:py-32 bg-white text-neutral-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="space-y-4 mb-16 lg:mb-20 max-w-3xl">
+        <Reveal direction="up" distance={24} duration={0.65} className="space-y-4 mb-16 lg:mb-20 max-w-3xl">
           <div className="inline-flex items-center gap-3">
             <span className="w-8 h-[2px] bg-[#FF007B]" />
             <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
@@ -150,12 +151,12 @@ export function ContactSection({
             Tell us about your construction plans, and let&apos;s start a conversation about bringing
             your vision to life.
           </p>
-        </div>
+        </Reveal>
 
         {/* Two-Column Grid: Contact Information & Interactive Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Contact Cards & Direct Channels */}
-          <div className="lg:col-span-5 space-y-8">
+          <Reveal direction="up" distance={28} delay={0.1} duration={0.7} className="lg:col-span-5 space-y-8">
             {/* Company Card */}
             <div className="p-8 rounded-lg bg-neutral-900 text-white border border-neutral-800 shadow-xl space-y-6">
               <div>
@@ -300,11 +301,10 @@ export function ContactSection({
                 </div>
               </div>
             </div>
-
-          </div>
+          </Reveal>
 
           {/* Right Column: Accessible Contact Form */}
-          <div className="lg:col-span-7">
+          <Reveal direction="up" distance={28} delay={0.2} duration={0.7} className="lg:col-span-7">
             <div className="bg-white border border-neutral-200/90 rounded-lg p-6 sm:p-8 shadow-sm">
               <h3 className="font-heading font-bold text-2xl text-black mb-2">
                 Project Enquiry Form
@@ -544,7 +544,7 @@ export function ContactSection({
                 </form>
               )}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export function HeroSection() {
   const scrollTo = (id: string) => {
@@ -45,32 +46,57 @@ export function HeroSection() {
 
 
 
-          {/* Hero Content */}
-          <div className="relative z-20 max-w-xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl space-y-6 sm:space-y-8 py-4 sm:py-6">
+          {/* Hero Content with Smooth Sharp Motion Reveal */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="relative z-20 max-w-xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl space-y-6 sm:space-y-8 py-4 sm:py-6"
+          >
             {/* Eyebrow Label */}
-            <div className="inline-flex items-center gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-3"
+            >
               <span className="w-8 h-[2px] bg-[#FF007B]" />
               <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
                 BUILDING WITH PURPOSE
               </span>
-            </div>
+            </motion.div>
 
             {/* Main Headline (Avant Garde font, strict containment, no orphan words) */}
-            <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.1] [text-wrap:balance]">
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.1] [text-wrap:balance]"
+            >
               We Build More Than Structures.{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-neutral-400">
                 We Build Confidence.
               </span>
-            </h1>
+            </motion.h1>
 
             {/* Supporting Text (DM Sans) */}
-            <p className="text-sm sm:text-base md:text-lg text-neutral-300 max-w-2xl leading-relaxed font-normal">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-sm sm:text-base md:text-lg text-neutral-300 max-w-2xl leading-relaxed font-normal"
+            >
               MStrata Construction Company delivers dependable construction solutions through quality
               craftsmanship, thoughtful planning, and a commitment to lasting results.
-            </p>
+            </motion.p>
 
             {/* Call-to-Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
+            >
               <button
                 type="button"
                 onClick={() => scrollTo('#projects')}
@@ -79,8 +105,8 @@ export function HeroSection() {
                 <span>Explore Our Projects</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

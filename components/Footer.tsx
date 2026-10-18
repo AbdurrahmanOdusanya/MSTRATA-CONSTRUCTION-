@@ -5,6 +5,7 @@ import {
   Linkedin,
   MessageSquare,
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -26,7 +27,8 @@ export function Footer() {
   return (
     <footer className="relative bg-[#070B13] text-white pt-6 sm:pt-8 lg:pt-9 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* 1. Large Clean White Footer Container (Card on Dark Background) */}
-      <div className="max-w-7xl mx-auto bg-white text-neutral-900 rounded-2xl border border-neutral-200/90 shadow-2xl p-6 sm:p-10 lg:p-12 relative z-10">
+      <Reveal direction="up" distance={24} duration={0.65} className="max-w-7xl mx-auto">
+        <div className="bg-white text-neutral-900 rounded-2xl border border-neutral-200/90 shadow-2xl p-6 sm:p-10 lg:p-12 relative z-10">
         {/* Main Grid: Brand & About + Quick Links + Contact Info + Follow Us */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8">
           {/* Brand & Description Column (spans 4 cols) */}
@@ -181,6 +183,7 @@ export function Footer() {
           </div>
         </div>
       </div>
+      </Reveal>
 
       {/* 2. Copyright and Regional Details (Positioned Directly Above Logo Watermark) */}
       <div className="max-w-7xl mx-auto pt-8 sm:pt-12 pb-2 relative z-10">
@@ -197,7 +200,7 @@ export function Footer() {
       </div>
 
       {/* 3. Oversized Logo Wordmark Signature Section (Last Thing in the Footer, Naturally Cropped at Bottom) */}
-      <div className="w-full relative overflow-hidden select-none pointer-events-none mt-4 sm:mt-6">
+      <Reveal direction="up" distance={16} duration={0.8} delay={0.1} className="w-full relative overflow-hidden select-none pointer-events-none mt-4 sm:mt-6">
         <div className="max-w-7xl mx-auto">
           <div
             className="w-full overflow-hidden flex items-start aspect-[4.658/1]"
@@ -212,7 +215,7 @@ export function Footer() {
             />
           </div>
         </div>
-      </div>
+      </Reveal>
     </footer>
   );
 }

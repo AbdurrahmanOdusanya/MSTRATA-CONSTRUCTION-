@@ -18,6 +18,7 @@ import {
   Building2,
   Layers,
 } from 'lucide-react';
+import { Reveal } from '@/components/Reveal';
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<'All' | 'Residential' | 'Commercial'>('All');
@@ -116,41 +117,43 @@ export default function ProjectsPage() {
             <span className="text-neutral-200">All Projects</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div className="max-w-3xl space-y-4">
-              <div className="inline-flex items-center gap-3">
-                <span className="w-8 h-[2px] bg-[#FF007B]" />
-                <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
-                  COMPLETE PORTFOLIO
-                </span>
+          <Reveal direction="up" distance={24} duration={0.65}>
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+              <div className="max-w-3xl space-y-4">
+                <div className="inline-flex items-center gap-3">
+                  <span className="w-8 h-[2px] bg-[#FF007B]" />
+                  <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#FF007B]">
+                    COMPLETE PORTFOLIO
+                  </span>
+                </div>
+                <h1 className="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-tight">
+                  Our Projects &amp; Site Progress.
+                </h1>
+                <p className="text-base sm:text-lg text-neutral-400 leading-relaxed max-w-2xl">
+                  Explore our full registry of completed structures, ongoing developments, and turnkey
+                  deliveries across Lagos State — from contemporary luxury duplexes to multi-tier commercial facilities.
+                </p>
               </div>
-              <h1 className="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-tight">
-                Our Projects &amp; Site Progress.
-              </h1>
-              <p className="text-base sm:text-lg text-neutral-400 leading-relaxed max-w-2xl">
-                Explore our full registry of completed structures, ongoing developments, and turnkey
-                deliveries across Lagos State — from contemporary luxury duplexes to multi-tier commercial facilities.
-              </p>
-            </div>
 
-            {/* Category Filter Pills */}
-            <div className="flex items-center gap-2 bg-neutral-900/90 border border-neutral-800 p-1.5 rounded-xl shrink-0 self-start lg:self-end">
-              {(['All', 'Residential', 'Commercial'] as const).map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 sm:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                    selectedCategory === cat
-                      ? 'bg-[#FF007B] text-white shadow-lg shadow-[#FF007B]/25'
-                      : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
-                  }`}
-                >
-                  {cat === 'All' ? `All (${allProjects.length})` : cat}
-                </button>
-              ))}
+              {/* Category Filter Pills */}
+              <div className="flex items-center gap-2 bg-neutral-900/90 border border-neutral-800 p-1.5 rounded-xl shrink-0 self-start lg:self-end">
+                {(['All', 'Residential', 'Commercial'] as const).map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-4 sm:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                      selectedCategory === cat
+                        ? 'bg-[#FF007B] text-white shadow-lg shadow-[#FF007B]/25'
+                        : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
+                    }`}
+                  >
+                    {cat === 'All' ? `All (${allProjects.length})` : cat}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         {/* Projects Grid */}
@@ -166,90 +169,101 @@ export default function ProjectsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
-              <div
+              <Reveal
                 key={project.id}
-                onClick={() => {
-                  setSelectedProject(project);
-                  setFullscreenGalleryIndex(null);
-                }}
-                className="group bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden hover:border-[#FF007B] transition-all duration-300 cursor-pointer flex flex-col justify-between hover:shadow-2xl hover:shadow-[#FF007B]/10 hover:-translate-y-1"
+                direction="up"
+                distance={28}
+                delay={(index % 3) * 0.08}
+                duration={0.65}
+                className="h-full"
               >
-                <div>
-                  {/* Project Image Container */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                    
-                    {/* Category & Project Index Badges */}
-                    <div className="absolute top-3 inset-x-3 flex items-center justify-between">
-                      <span className="bg-black/80 backdrop-blur-md text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded text-[#FF007B] border border-neutral-800 shadow">
-                        {project.category}
-                      </span>
-                      <span className="bg-black/80 backdrop-blur-md text-[11px] font-mono text-neutral-400 px-2 py-0.5 rounded border border-neutral-800">
-                        #{String(index + 1).padStart(2, '0')}
-                      </span>
+                <div
+                  onClick={() => {
+                    setSelectedProject(project);
+                    setFullscreenGalleryIndex(null);
+                  }}
+                  className="group bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden hover:border-[#FF007B] transition-all duration-300 cursor-pointer flex flex-col justify-between hover:shadow-2xl hover:shadow-[#FF007B]/10 hover:-translate-y-1 h-full"
+                >
+                  <div>
+                    {/* Project Image Container */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                      
+                      {/* Category & Project Index Badges */}
+                      <div className="absolute top-3 inset-x-3 flex items-center justify-between">
+                        <span className="bg-black/80 backdrop-blur-md text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded text-[#FF007B] border border-neutral-800 shadow">
+                          {project.category}
+                        </span>
+                        <span className="bg-black/80 backdrop-blur-md text-[11px] font-mono text-neutral-400 px-2 py-0.5 rounded border border-neutral-800">
+                          #{String(index + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+
+                      {project.galleryImages && project.galleryImages.length > 0 && (
+                        <span className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md text-[11px] font-semibold text-white px-2.5 py-1 rounded flex items-center gap-1.5 border border-neutral-800">
+                          <Layers className="w-3.5 h-3.5 text-[#FF007B]" />
+                          <span>{project.galleryImages.length} Milestones</span>
+                        </span>
+                      )}
                     </div>
 
-                    {project.galleryImages && project.galleryImages.length > 0 && (
-                      <span className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md text-[11px] font-semibold text-white px-2.5 py-1 rounded flex items-center gap-1.5 border border-neutral-800">
-                        <Layers className="w-3.5 h-3.5 text-[#FF007B]" />
-                        <span>{project.galleryImages.length} Milestones</span>
-                      </span>
-                    )}
+                    {/* Content Area */}
+                    <div className="p-6 space-y-3">
+                      <h3 className="font-heading font-bold text-xl text-white group-hover:text-[#FF007B] transition-colors leading-snug">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-neutral-400 line-clamp-3 leading-relaxed">
+                        {project.description}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Content Area */}
-                  <div className="p-6 space-y-3">
-                    <h3 className="font-heading font-bold text-xl text-white group-hover:text-[#FF007B] transition-colors leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-neutral-400 line-clamp-3 leading-relaxed">
-                      {project.description}
-                    </p>
+                  {/* Card Footer */}
+                  <div className="px-6 pb-6 pt-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-300 group-hover:text-white border-t border-neutral-800/80">
+                    <span className="flex items-center gap-1.5">
+                      <span>View Project</span>
+                      <ArrowUpRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </span>
+                    <span className="text-[11px] text-neutral-400 font-normal truncate max-w-[150px] text-right">
+                      {project.details.location}
+                    </span>
                   </div>
                 </div>
-
-                {/* Card Footer */}
-                <div className="px-6 pb-6 pt-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-300 group-hover:text-white border-t border-neutral-800/80">
-                  <span className="flex items-center gap-1.5">
-                    <span>View Project</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#FF007B] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </span>
-                  <span className="text-[11px] text-neutral-400 font-normal truncate max-w-[150px] text-right">
-                    {project.details.location}
-                  </span>
-                </div>
-              </div>
+              </Reveal>
             ))}
           </div>
 
           {/* Bottom Consultation Banner */}
-          <div className="mt-20 p-8 sm:p-12 rounded-2xl bg-neutral-900 border border-neutral-800 text-center flex flex-col items-center justify-center space-y-4 shadow-2xl">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#FF007B]">
-              HAVE A CONSTRUCTION PROJECT IN MIND?
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white max-w-xl">
-              Let&apos;s Build Your Next Residential or Commercial Development
-            </h2>
-            <p className="text-sm text-neutral-400 max-w-lg leading-relaxed">
-              From foundation soil stabilization to turnkey architectural completion, MStrata delivers precision engineering and durable craftsmanship.
-            </p>
-            <div className="pt-2">
-              <Link
-                href="/#contact"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#FF007B] hover:bg-[#E0006C] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#FF007B]/30 hover:-translate-y-0.5 transition-all"
-              >
-                <span>Request Project Consultation</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
+          <Reveal direction="up" distance={24} duration={0.65} className="mt-20">
+            <div className="p-8 sm:p-12 rounded-2xl bg-neutral-900 border border-neutral-800 text-center flex flex-col items-center justify-center space-y-4 shadow-2xl">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#FF007B]">
+                HAVE A CONSTRUCTION PROJECT IN MIND?
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white max-w-xl">
+                Let&apos;s Build Your Next Residential or Commercial Development
+              </h2>
+              <p className="text-sm text-neutral-400 max-w-lg leading-relaxed">
+                From foundation soil stabilization to turnkey architectural completion, MStrata delivers precision engineering and durable craftsmanship.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/#contact"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#FF007B] hover:bg-[#E0006C] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#FF007B]/30 hover:-translate-y-0.5 transition-all"
+                >
+                  <span>Request Project Consultation</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </main>
 
