@@ -8,6 +8,7 @@ export interface ProjectItem {
   id: string;
   title: string;
   category: 'Residential' | 'Commercial';
+  status: 'Completed' | 'Ongoing';
   image: string;
   galleryImages?: ProjectGalleryImage[];
   description: string;
@@ -24,6 +25,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-egin-22',
     title: 'Construction of 2 Units of 3-Bedroom Semi-Detached Duplexes and 1 Unit of 5-Bedroom Fully Detached Duplex',
     category: 'Residential',
+    status: 'Completed',
     image: 'https://i.postimg.cc/fRFLwYPF/EGIN-22-Facade-Detailing-Perimeter-Gating.jpg',
     galleryImages: [
       {
@@ -71,6 +73,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-agege',
     title: 'Construction of 5-Bedroom duplex',
     category: 'Residential',
+    status: 'Completed',
     image: 'https://i.postimg.cc/KzjJnSfw/Agege-Practical-Completion-Turnkey-Handover.jpg',
     galleryImages: [
       {
@@ -113,6 +116,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-2-iju-ishaga',
     title: 'Construction of a 5-Bedroom Contemporary Duplex with Pent Floor',
     category: 'Residential',
+    status: 'Completed',
     image: 'https://i.postimg.cc/k532QxyW/2-IJU-ISHAGA-Practical-Completion-Turnkey-Commissioning.jpg',
     galleryImages: [
       {
@@ -155,6 +159,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-alpha-beach',
     title: 'Construction of 9 Units of 2-Bedroom Flats',
     category: 'Residential',
+    status: 'Completed',
     image: 'https://i.postimg.cc/Yqv0TXng/ALPHA-BEACH-Final-Painting-Exterior-Finishes.jpg',
     galleryImages: [
       {
@@ -212,6 +217,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-olodi-apapa',
     title: 'Development of a Contemporary Boutique Hotel',
     category: 'Commercial',
+    status: 'Completed',
     image: 'https://i.postimg.cc/k4yRXBKk/OLODI-APAPA-Envelope-Finishing-Glazing.jpg',
     galleryImages: [
       {
@@ -254,6 +260,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-3-iju-ishaga',
     title: 'Remodelling & Completion of 4 Units of 2-Bedroom Flats',
     category: 'Residential',
+    status: 'Completed',
     image: 'https://i.postimg.cc/DZfy654X/3-IJU-ISHAGA-Practical-Completion-Final-Turnkey-Handover.jpg',
     galleryImages: [
       {
@@ -296,6 +303,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-surulere',
     title: 'Construction of a 4-Bedroom Duplex',
     category: 'Residential',
+    status: 'Completed',
     image: 'https://i.postimg.cc/1t0wnWhY/SURULERE-Facade-Plastering-Glazing.jpg',
     galleryImages: [
       {
@@ -338,6 +346,7 @@ export const allProjects: ProjectItem[] = [
     id: 'proj-byd',
     title: 'BYD Commercial Automotive Showroom',
     category: 'Commercial',
+    status: 'Completed',
     image: 'https://i.postimg.cc/RZ8T3cTP/BYD-Finished-Showroom-Handover.jpg',
     galleryImages: [
       {
@@ -379,6 +388,39 @@ export const allProjects: ProjectItem[] = [
         'Ground-up commercial showroom engineering, structural framing, exterior envelope fabrication, and turn-key handover.',
       focus:
         'Deep piled subgrade stabilization, load-bearing ground beam gridlines, suspended structural floor systems, integrated curtain-wall glazing, and corporate brand architectural finishes.',
+    },
+  },
+  {
+    id: 'proj-egin-8',
+    title: 'Construction of 2 Units of 3-Bedroom Semi-Detached Duplexes and 1 Unit of 5-Bedroom Fully Detached Duplex',
+    category: 'Residential',
+    status: 'Ongoing',
+    image: '/images/Ground Floor Blockwork & Lintel Casting .webp',
+    galleryImages: [
+      {
+        src: '/images/Foundation Blockwork & Column Starters.webp',
+        caption: 'Foundation Blockwork & Column Starters',
+        stage: 'Phase 01',
+      },
+      {
+        src: '/images/Ground Floor Blockwork & Lintel Casting .webp',
+        caption: 'Ground Floor Blockwork & Lintel Casting',
+        stage: 'Phase 02',
+      },
+      {
+        src: '/images/First-Floor Slab & Beam Formwork.webp',
+        caption: 'First-Floor Slab & Beam Formwork',
+        stage: 'Phase 03',
+      },
+    ],
+    description:
+      'A luxury contemporary residential development featuring prominent cantilevered architectural portal frames, warm natural stacked-stone cladding, vertical aluminium louvre privacy screens, glass balustrades, and a fully gated, paved perimeter compound.',
+    details: {
+      location: 'No 8 Egin Street, Ojodu Berger',
+      scope:
+        'Full turnkey civil and structural construction spanning foundation trenches and ground beam gridlines, suspended reinforced concrete floor decking, superstructure masonry shells, timber roof trusses, modern flat-parapet framing, exterior texture rendering, natural stone masonry, security fencing, and sliding access gates.',
+      focus:
+        'Cantilevered box-frame load distribution, high-strength ground beam foundation stabilization, acoustic and structural separation along party walls, exterior moisture-resistant stone veneer detailing, and integrated solar-control architectural screening.',
     },
   },
 ];

@@ -210,7 +210,7 @@ export default function ProjectsPage() {
                       {project.galleryImages && project.galleryImages.length > 0 && (
                         <span className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md text-[11px] font-semibold text-white px-2.5 py-1 rounded flex items-center gap-1.5 border border-neutral-800">
                           <Layers className="w-3.5 h-3.5 text-[#FF007B]" />
-                          <span>{project.galleryImages.length} Milestones</span>
+                          <span>{project.status}</span>
                         </span>
                       )}
                     </div>
