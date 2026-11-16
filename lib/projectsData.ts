@@ -395,20 +395,20 @@ export const allProjects: ProjectItem[] = [
     title: 'Construction of 2 Units of 3-Bedroom Semi-Detached Duplexes and 1 Unit of 5-Bedroom Fully Detached Duplex',
     category: 'Residential',
     status: 'Ongoing',
-    image: '/images/Ground Floor Blockwork & Lintel Casting .webp',
+    image: 'https://i.postimg.cc/HscrfLrQ/Ground-Floor-Blockwork-Lintel-Casting.webp',
     galleryImages: [
       {
-        src: '/images/Foundation Blockwork & Column Starters.webp',
+        src: 'https://i.postimg.cc/WbFdQ4dx/Foundation-Blockwork-Column-Starters.webp',
         caption: 'Foundation Blockwork & Column Starters',
         stage: 'Phase 01',
       },
       {
-        src: '/images/Ground Floor Blockwork & Lintel Casting .webp',
+        src: 'https://i.postimg.cc/HscrfLrQ/Ground-Floor-Blockwork-Lintel-Casting.webp',
         caption: 'Ground Floor Blockwork & Lintel Casting',
         stage: 'Phase 02',
       },
       {
-        src: '/images/First-Floor Slab & Beam Formwork.webp',
+        src: 'https://i.postimg.cc/YqGvJSvF/First-Floor-Slab-Beam-Formwork.webp',
         caption: 'First-Floor Slab & Beam Formwork',
         stage: 'Phase 03',
       },
