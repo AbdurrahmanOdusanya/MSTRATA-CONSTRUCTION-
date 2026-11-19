@@ -423,4 +423,27 @@ export const allProjects: ProjectItem[] = [
         'Cantilevered box-frame load distribution, high-strength ground beam foundation stabilization, acoustic and structural separation along party walls, exterior moisture-resistant stone veneer detailing, and integrated solar-control architectural screening.',
     },
   },
+  {
+    id: 'proj-morgan-estate',
+    title: 'Construction of 2 Units of 5-Bedroom Semi-Detached Triplexes & 1 Unit of 5-Bedroom Fully-Detached Triplex',
+    category: 'Residential',
+    status: 'Ongoing',
+    image: 'https://i.postimg.cc/05Hzhg4L/Setting-Out-Trench-Excavation.webp',
+    galleryImages: [
+      {
+        src: 'https://i.postimg.cc/05Hzhg4L/Setting-Out-Trench-Excavation.webp',
+        caption: 'Setting Out & Trench Excavation',
+        stage: 'Phase 01',
+      },
+    ],
+    description:
+      'A luxury contemporary multi-unit residential development featuring bold cantilevered upper-level box frames, natural stacked-stone and vertical louvre cladding, glass balustrades, rooftop solar panel arrays, dedicated driveway access, and integrated perimeter landscaping.',
+    details: {
+      location: 'Morgan Estate, Ojodu Berger',
+      scope:
+        'Full architectural design, structural engineering, and turnkey multi-level construction encompassing substructure foundations, reinforced concrete framing, flat-parapet roof decking with solar and water storage integration, modern stone-and-fluted façade finishes, stamped concrete driveways, and automated perimeter security gating.',
+      focus:
+        'Long-span cantilevered upper-floor structural support, flat-roof live-load optimization for rooftop solar arrays and overhead water tanks, high-density site circulation for rear detached access, acoustic party-wall separation, and contemporary architectural lighting.',
+    },
+  },
 ];

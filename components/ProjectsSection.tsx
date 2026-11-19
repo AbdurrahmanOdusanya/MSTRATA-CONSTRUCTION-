@@ -324,9 +324,6 @@ export function ProjectsSection({ onSelectProjectForQuote }: ProjectsSectionProp
                           </h5>
                           <div className="flex items-center justify-between text-xs text-neutral-400 pt-0.5">
                             <span>Stage {idx + 1} of {selectedProject.galleryImages?.length}</span>
-                            <span className="text-[#FF007B] text-[11px] font-medium flex items-center gap-1">
-                              Tap to open carousel &rarr;
-                            </span>
                           </div>
                         </div>
                       </div>

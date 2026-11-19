@@ -21,14 +21,14 @@ import {
 import { Reveal } from '@/components/Reveal';
 
 export default function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<'All' | 'Residential' | 'Commercial'>('All');
+  const [selectedStatus, setSelectedStatus] = useState<'All' | 'Completed' | 'Ongoing'>('All');
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [fullscreenGalleryIndex, setFullscreenGalleryIndex] = useState<number | null>(null);
 
-  // Filter projects by category
+  // Filter projects by status
   const filteredProjects = allProjects.filter((project) => {
-    if (selectedCategory === 'All') return true;
-    return project.category === selectedCategory;
+    if (selectedStatus === 'All') return true;
+    return project.status === selectedStatus;
   });
 
   const handleEnquireSimilar = (title: string) => {
@@ -135,20 +135,20 @@ export default function ProjectsPage() {
                 </p>
               </div>
 
-              {/* Category Filter Pills */}
+              {/* Status Filter Pills */}
               <div className="flex items-center gap-2 bg-neutral-900/90 border border-neutral-800 p-1.5 rounded-xl shrink-0 self-start lg:self-end">
-                {(['All', 'Residential', 'Commercial'] as const).map((cat) => (
+                {(['All', 'Completed', 'Ongoing'] as const).map((status) => (
                   <button
-                    key={cat}
+                    key={status}
                     type="button"
-                    onClick={() => setSelectedCategory(cat)}
+                    onClick={() => setSelectedStatus(status)}
                     className={`px-4 sm:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                      selectedCategory === cat
+                      selectedStatus === status
                         ? 'bg-[#FF007B] text-white shadow-lg shadow-[#FF007B]/25'
                         : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
                     }`}
                   >
-                    {cat === 'All' ? `All (${allProjects.length})` : cat}
+                    {status === 'All' ? `All (${allProjects.length})` : status}
                   </button>
                 ))}
               </div>
@@ -400,9 +400,6 @@ export default function ProjectsPage() {
                           </h5>
                           <div className="flex items-center justify-between text-xs text-neutral-400 pt-0.5">
                             <span>Stage {idx + 1} of {selectedProject.galleryImages?.length}</span>
-                            <span className="text-[#FF007B] text-[11px] font-medium flex items-center gap-1">
-                              Tap to open carousel &rarr;
-                            </span>
                           </div>
                         </div>
                       </div>
